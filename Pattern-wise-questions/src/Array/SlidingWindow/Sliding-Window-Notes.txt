@@ -1,0 +1,33 @@
+There are 4 types of trees.questions in this Two pointer / Sliding window pattern
+
+1. Constant window :
+    a. Where in the window size will always be constant and most probably given as well
+    b. It might start from start / end / including both
+    c. Pretty straight forward, have to compute some stuff and keep moving the pointers accordingly
+    d. Check out LCMedObtainMaximumPoints.java in this package
+
+2. Longest SubArray / SubString where <condition>
+    a. Priority is to maximize the length of window based on some given condition
+    b. Have to keep an eye on the given condition at each iteration
+    c. If at any iteration the condition is getting violated, update the window size accordingly and keep check of that point somewhere (e.g. an array)
+    d. Optimal answer will be found by comparing the conditions after the update in (c) with the qualified window size before the update (e.g. 3 in LongestSubStringWithoutRepeating)
+    b. Check out LongestSubStringWithoutRepeating.java in this package
+
+3. No. of subArrays where <condition>
+    a. These are hard to decide whether the window size is to be increased or decreased
+    b. Are solved by using Pattern 2 as a functional unit
+    c. E.G : No. of subArrays with sum = k
+        i. Find out no. of subArrays with sum <= k
+        ii. Find out no. of subArrays with sum <= k - 1
+        iii. Subtract (ii) from (i) to find ans
+
+4. Shortest / Minimum window where <condition>
+    a. Rare cases
+    b. Find out the possible answer with any window size
+    c. Try to shrink the window by keeping the condition met
+
+*** Be it any type of question, it will be revolving around 3 major stages :
+    1. Consider BruteForce approach, by generating all the possible scenarios
+    2. Better approach by using window sizes, increasing / shrinking it
+    3. Optimal answer by using the if condition with the qualified window size before the update in 2.c
+
