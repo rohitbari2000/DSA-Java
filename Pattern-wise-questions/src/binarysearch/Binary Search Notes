@@ -1,0 +1,234 @@
+Binary Search :
+
+Here’s a full breakdown of the most important Binary Search Patterns in Java for DSA and LeetCode, with patterns, code, and real problem links. Binary Search isn’t just for “find in sorted array” — it applies to a bunch of patterns used in interviews.
+
+
+---
+
+🔎 Binary Search Patterns in Java (DSA + LeetCode)
+
+🧠 Core Binary Search Template (Iterative)
+
+public int binarySearch(int[] arr, int target) {
+    int left = 0, right = arr.length - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == target) return mid;
+        else if (arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+
+    return -1;
+}
+
+
+---
+
+🔁 Pattern 1: Standard Binary Search
+
+✅ When to use:
+
+Find an element in a sorted array
+
+
+💡 Example: 704. Binary Search
+
+public int search(int[] nums, int target) {
+    int left = 0, right = nums.length - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] == target) return mid;
+        else if (nums[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+
+
+---
+
+🔁 Pattern 2: Lower Bound / Upper Bound
+
+✅ When to use:
+
+Find first/last occurrence of a target in a sorted array
+
+
+💡 Example: 34. Find First and Last Position of Element in Sorted Array
+
+public int[] searchRange(int[] nums, int target) {
+    return new int[]{findBound(nums, target, true), findBound(nums, target, false)};
+}
+
+private int findBound(int[] nums, int target, boolean isFirst) {
+    int left = 0, right = nums.length - 1, result = -1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (nums[mid] == target) {
+            result = mid;
+            if (isFirst) right = mid - 1;
+            else left = mid + 1;
+        } else if (nums[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return result;
+}
+
+
+---
+
+🔁 Pattern 3: Binary Search on Answer
+
+✅ When to use:
+
+Search is on value range, not directly on the array
+
+Usually the problem says “find minimum/maximum valid value”
+
+
+💡 Example: 875. Koko Eating Bananas
+
+public int minEatingSpeed(int[] piles, int h) {
+    int left = 1, right = Arrays.stream(piles).max().getAsInt();
+
+    while (left < right) {
+        int mid = left + (right - left) / 2;
+
+        int hours = 0;
+        for (int pile : piles) {
+            hours += (pile + mid - 1) / mid;
+        }
+
+        if (hours > h) left = mid + 1;
+        else right = mid;
+    }
+
+    return left;
+}
+
+
+---
+
+🔁 Pattern 4: Search in Rotated Sorted Array
+
+✅ When to use:
+
+Sorted array rotated at a pivot
+
+May or may not contain duplicates
+
+
+💡 Example: 33. Search in Rotated Sorted Array
+
+public int search(int[] nums, int target) {
+    int left = 0, right = nums.length - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (nums[mid] == target) return mid;
+
+        // Left part is sorted
+        if (nums[left] <= nums[mid]) {
+            if (nums[left] <= target && target < nums[mid])
+                right = mid - 1;
+            else
+                left = mid + 1;
+        } else {
+            // Right part is sorted
+            if (nums[mid] < target && target <= nums[right])
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+    }
+
+    return -1;
+}
+
+
+---
+
+🔁 Pattern 5: Peak / Local Maximum
+
+✅ When to use:
+
+Array has a peak element, find it efficiently
+
+
+💡 Example: 162. Find Peak Element
+
+public int findPeakElement(int[] nums) {
+    int left = 0, right = nums.length - 1;
+
+    while (left < right) {
+        int mid = (left + right) / 2;
+
+        if (nums[mid] > nums[mid + 1]) right = mid;
+        else left = mid + 1;
+    }
+
+    return left;
+}
+
+
+---
+
+🔁 Pattern 6: Search in 2D Matrix
+
+✅ When to use:
+
+Matrix is sorted row-wise and column-wise
+
+
+💡 Example: 74. Search a 2D Matrix
+
+public boolean searchMatrix(int[][] matrix, int target) {
+    int m = matrix.length, n = matrix[0].length;
+    int left = 0, right = m * n - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        int val = matrix[mid / n][mid % n];
+
+        if (val == target) return true;
+        else if (val < target) left = mid + 1;
+        else right = mid - 1;
+    }
+
+    return false;
+}
+
+
+---
+
+🧠 Quick Reference Table
+
+Pattern	Use Case Example	LeetCode Problems
+
+Classic Binary Search	Find target in sorted array	704, 278, 35
+First/Last Occurrence	Range of target	34, 852
+Binary Search on Answer	Min/max valid value	875, 410, 1283, 1482
+Rotated Sorted Array	Pivoted sorted array	33, 81, 153, 154
+Peak Element	Local max in array	162, 852
+2D Matrix Search	Flattened 2D binary search	74, 240
+
+
+
+---
+
+📘 Want More?
+
+I can share:
+
+A printable Binary Search Cheat Sheet (PDF)
+
+Problem ladder: Easy → Hard LeetCode practice set
+
+Advanced variants (K-th smallest, Aggressive Cows)
+
+
+Let me know your level or goals — I can tailor a prep plan for interviews or placements.
