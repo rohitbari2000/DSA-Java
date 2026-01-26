@@ -1,0 +1,206 @@
+String patterns
+
+Here’s a solid guide to String Patterns in Java DSA, especially tailored to common LeetCode problems.
+
+These are patterns that appear over and over again in string-related coding questions — knowing them gives you a real edge in interviews.
+
+
+---
+
+🔤 String Pattern Techniques (Java + LeetCode)
+
+🔁 1. Two Pointers on Strings
+
+Used for problems like palindromes, reversals, comparing two strings, etc.
+
+💡 Example: 125. Valid Palindrome
+
+public boolean isPalindrome(String s) {
+    int left = 0, right = s.length() - 1;
+
+    while (left < right) {
+        while (left < right && !Character.isLetterOrDigit(s.charAt(left))) left++;
+        while (left < right && !Character.isLetterOrDigit(s.charAt(right))) right--;
+
+        if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right)))
+            return false;
+
+        left++;
+        right--;
+    }
+
+    return true;
+}
+
+
+---
+
+🔄 2. Sliding Window on Strings
+
+Used for substrings with conditions, such as max/min length, distinct characters, frequency matching, etc.
+
+💡 Example: 76. Minimum Window Substring
+
+public String minWindow(String s, String t) {
+    Map<Character, Integer> map = new HashMap<>();
+    for (char c : t.toCharArray()) {
+        map.put(c, map.getOrDefault(c, 0) + 1);
+    }
+
+    int left = 0, minLen = Integer.MAX_VALUE, start = 0, count = t.length();
+
+    for (int right = 0; right < s.length(); right++) {
+        char c = s.charAt(right);
+        if (map.containsKey(c)) {
+            if (map.get(c) > 0) count--;
+            map.put(c, map.get(c) - 1);
+        }
+
+        while (count == 0) {
+            if (right - left + 1 < minLen) {
+                minLen = right - left + 1;
+                start = left;
+            }
+
+            char lc = s.charAt(left++);
+            if (map.containsKey(lc)) {
+                map.put(lc, map.get(lc) + 1);
+                if (map.get(lc) > 0) count++;
+            }
+        }
+    }
+
+    return minLen == Integer.MAX_VALUE ? "" : s.substring(start, start + minLen);
+}
+
+
+---
+
+🔁 3. Character Count / Frequency Map
+
+Used when you need to compare anagrams, build histograms, or count occurrences.
+
+💡 Example: 242. Valid Anagram
+
+public boolean isAnagram(String s, String t) {
+    if (s.length() != t.length()) return false;
+
+    int[] count = new int[26];
+    for (int i = 0; i < s.length(); i++) {
+        count[s.charAt(i) - 'a']++;
+        count[t.charAt(i) - 'a']--;
+    }
+
+    for (int c : count) {
+        if (c != 0) return false;
+    }
+
+    return true;
+}
+
+
+---
+
+🔁 4. Reversing a String or Part of It
+
+💡 Example: 344. Reverse String
+
+public void reverseString(char[] s) {
+    int left = 0, right = s.length - 1;
+    while (left < right) {
+        char temp = s[left];
+        s[left++] = s[right];
+        s[right--] = temp;
+    }
+}
+
+
+---
+
+🔄 5. Expand Around Center
+
+For palindromic substrings or center-based expansion problems.
+
+💡 Example: 5. Longest Palindromic Substring
+
+public String longestPalindrome(String s) {
+    if (s == null || s.length() < 1) return "";
+
+    int start = 0, end = 0;
+
+    for (int i = 0; i < s.length(); i++) {
+        int len1 = expand(s, i, i);
+        int len2 = expand(s, i, i + 1);
+        int len = Math.max(len1, len2);
+
+        if (len > end - start) {
+            start = i - (len - 1) / 2;
+            end = i + len / 2;
+        }
+    }
+
+    return s.substring(start, end + 1);
+}
+
+private int expand(String s, int left, int right) {
+    while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+        left--;
+        right++;
+    }
+    return right - left - 1;
+}
+
+
+---
+
+🔢 6. Zigzag / Pattern Conversion
+
+Used for formatting or manipulating the string’s layout.
+
+💡 Example: 6. Zigzag Conversion
+
+public String convert(String s, int numRows) {
+    if (numRows == 1 || s.length() <= numRows) return s;
+
+    List<StringBuilder> rows = new ArrayList<>();
+    for (int i = 0; i < Math.min(numRows, s.length()); i++) rows.add(new StringBuilder());
+
+    int curRow = 0;
+    boolean goingDown = false;
+
+    for (char c : s.toCharArray()) {
+        rows.get(curRow).append(c);
+        if (curRow == 0 || curRow == numRows - 1) goingDown = !goingDown;
+        curRow += goingDown ? 1 : -1;
+    }
+
+    StringBuilder result = new StringBuilder();
+    for (StringBuilder row : rows) result.append(row);
+    return result.toString();
+}
+
+
+---
+
+🔁 7. KMP Pattern Matching
+
+For efficient substring search, especially in repeated pattern problems.
+
+💡 Example: 28. Find the Index of the First Occurrence in a String
+
+(KMP approach, optional for advanced prep)
+
+
+---
+
+🔖 Common String Problems by Category
+
+Problem Type	LeetCode Problems
+
+Anagrams	242, 49, 438
+Palindromes	5, 125, 647, 131
+Substring search	3, 76, 30, 28
+Reversals & Modifications	344, 151, 557, 917
+Pattern matching	28, 459, 686 (use KMP or Rabin-Karp)
+Frequency counting	387, 451, 383, 424
+Tokenization	151 (reverse words), 125
