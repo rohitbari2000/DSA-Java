@@ -3,9 +3,10 @@ package LinkedList.Patterns;
 import LinkedList.Patterns.util.ListNode;
 
 class AddNumbers {
-    // Lists in reverse order: 2 -> 4 -> 3 represents 342
+    // ListNodes l1, l2 are in reverse order: 2 -> 4 -> 3 represents 342
     static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode dummy = new ListNode(0), p = dummy;
+        ListNode dummy = new ListNode(0);
+        ListNode p = dummy;
         int carry = 0;
         while (l1 != null || l2 != null || carry != 0) {
             int sum = carry;
