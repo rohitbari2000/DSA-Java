@@ -1,7 +1,5 @@
 package LinkedList.Patterns;
 
-import LinkedList.Patterns.util.ListNode;
-
 class DummyTechnique {
     // Remove all nodes with given value
     static ListNode removeElements(ListNode head, int val) {

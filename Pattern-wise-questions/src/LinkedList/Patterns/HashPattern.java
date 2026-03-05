@@ -1,7 +1,5 @@
 package LinkedList.Patterns;
 
-import LinkedList.Patterns.util.ListNode;
-
 import java.util.HashSet;
 import java.util.Set;
 

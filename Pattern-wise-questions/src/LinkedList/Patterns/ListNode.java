@@ -1,4 +1,4 @@
-package LinkedList.Patterns.util;
+package LinkedList.Patterns;
 
 // Shared ListNode used by all patterns
 public class ListNode {

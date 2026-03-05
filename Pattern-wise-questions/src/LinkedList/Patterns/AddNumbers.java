@@ -1,7 +1,5 @@
 package LinkedList.Patterns;
 
-import LinkedList.Patterns.util.ListNode;
-
 class AddNumbers {
     // ListNodes l1, l2 are in reverse order: 2 -> 4 -> 3 represents 342
     static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
